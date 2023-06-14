@@ -1,0 +1,76 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+    "rules": {
+        "import/prefer-default-export": "off",
+        "import/no-cycle": "off",
+        "import/order": "off",
+        "react/jsx-no-useless-fragment": "off",
+        "react/destructuring-assignment": "off",
+        "jsx-a11y/aria-role": "off",
+        "object-curly-newline": "off",
+        "react/prop-types": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/function-component-definition": "off",
+        "linebreak-style": "off",
+        "react/jsx-boolean-value": "off",
+        "prefer-destructuring": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "jest/valid-expect": "off",
+        "no-unneeded-ternary": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/require-default-props": "off",
+        "react/no-unused-prop-types": "off",
+        "arrow-body-style": "off",
+        "object-shorthand": "off",
+        "no-trailing-spaces": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "jsx-quotes": "off",
+        "no-console": "warn",
+        "no-param-reassign": "off",
+        "react/jsx-curly-brace-presence": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "max-classes-per-file": "off",
+        "no-multiple-empty-lines":["error", { "max":1 }],
+        "import/no-extraneous-dependencies": [
+          "off",
+          {
+            "devDependencies": [
+              "**/*.stories.*",
+              "**/.storybook/**/*.*",
+              "test.{ts,tsx}",
+              "test-*.{ts,tsx}",
+              "**/*{.,_}{test,spec}.{ts,tsx}",
+              "**/jest.setup.ts",
+              "**/jest.config.ts"
+            ],
+            "peerDependencies": true,
+            "optionalDependencies": false
+          }
+        ]
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+      }
+}
