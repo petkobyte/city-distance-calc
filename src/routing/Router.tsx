@@ -1,12 +1,16 @@
 import React from 'react';
+
+import { Home } from '../pages/home/Home';
+import { RootLayout } from '../layouts/RootLayout';
+import { NotFound } from '../pages/not-found/NotFound';
+import { SearchResult } from '../pages/search-result/SearchResult';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import App from '../App';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App />}>
-      <Route path='dashboard' element={<App />} />
-      {/* ... etc. */}
+    <Route path='/' element={<RootLayout />} errorElement={<NotFound />}>
+      <Route index element={<Home />} />
+      <Route path='result' element={<SearchResult />} />
     </Route>,
   ),
 );
