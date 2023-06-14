@@ -8,9 +8,10 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<RootLayout />} errorElement={<NotFound />}>
+    <Route path='/' element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path='result' element={<SearchResult />} />
+      <Route path='*' element={<NotFound />} />
     </Route>,
   ),
 );
