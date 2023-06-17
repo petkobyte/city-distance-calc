@@ -15,5 +15,8 @@
 
   .main-card {
     width: 734px;
+    max-height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

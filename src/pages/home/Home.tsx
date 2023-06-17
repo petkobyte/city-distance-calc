@@ -1,32 +1,196 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Grid from 'antd/lib/grid';
-import Button from 'antd/lib/button';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../components/button/Button';
+import Space from 'antd/lib/space';
+import Timeline from 'antd/lib/timeline';
+import Select, { SelectProps } from 'antd/lib/select';
+import Form from 'antd/lib/form';
+import message from 'antd/lib/message';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark, faLocationDot, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import './Home.scss';
+import { NumberInput } from '../../components/number-input';
+import DatePicker from 'antd/lib/date-picker';
+import { CityType } from '../../constants/cityTypes';
+import { City, cities } from '../../constants/cities';
+
 const { useBreakpoint } = Grid;
 
 export const Home = () => {
   const screens = useBreakpoint();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const mobileScreen: boolean = useMemo(() => !!screens.xs, [screens]);
+  const [passengers, setPassengers] = useState<number>(1);
+
+  const [cityFieldsKeys, setCityFieldsKeys] = useState<string[]>([
+    CityType.CITY_ORIGIN,
+    CityType.CITY_DESTINATION,
+  ]);
+  const [nextKey, setNextKey] = useState(1);
+
+  const [searchResults, setSearchResults] = useState<City[]>([]);
+
+  const mobileMode: boolean = useMemo(() => !!screens.xs, [screens]);
+
+  // const handleSubmit = () => {
+  //   navigate('/result');
+  // };
+
+  const onFinish = (values: any) => {
+    message.success('Submit success!');
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = () => {
+    message.error('Submit failed!');
+  };
+
+  const handleAddCityField = () => {
+    const updatedFields = [...cityFieldsKeys];
+    updatedFields.push(`${CityType.CITY_DESTINATION}_${nextKey}`);
+    setCityFieldsKeys(updatedFields);
+    setNextKey(nextKey + 1);
+  };
+
+  const handleRemoveCityField = (key: string) => {
+    const updatedFields = cityFieldsKeys.filter((field) => field !== key);
+    setCityFieldsKeys(updatedFields);
+  };
+
+  const searchCities = (keyword: string): Promise<City[]> => {
+    const delay: number = 1000;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const filteredCities = cities.filter(([name]) =>
+          name.toLowerCase().includes(keyword.toLowerCase()),
+        );
+        resolve(filteredCities);
+      }, delay);
+    });
+  };
+
+  const handleSearch = async (keyword: string) => {
+    console.log(keyword);
+    try {
+      const results = await searchCities(keyword);
+      console.log(results);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Failed to fetch cities:', error);
+      setSearchResults([]);
+    } finally {
+      console.log('done');
+    }
+  };
+
+  const createCityFields = () => {
+    return cityFieldsKeys.map((field: string, index: number) => {
+      const isOrigin: boolean = field === CityType.CITY_ORIGIN;
+      const isLastItem: boolean = index === cityFieldsKeys.length - 1;
+
+      return {
+        dot:
+          index === cityFieldsKeys.length - 1 ? (
+            <FontAwesomeIcon icon={faLocationDot} />
+          ) : undefined,
+        color: isLastItem ? 'red' : 'black',
+        children: (
+          <div key={field} className='select-with-additional-item'>
+            <Form.Item
+              key={field}
+              name={field}
+              label={isOrigin ? t('res_cityOfOrigin') : t('res_cityOfDestination')}
+              rules={[{ required: true }, { type: 'string', min: 1 }]}
+            >
+              <Select
+                key={field}
+                className='select-component'
+                size='large'
+                showSearch
+                allowClear
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                filterOption={false}
+                onSearch={(e) => handleSearch(e)}
+                notFoundContent={null}
+                options={searchResults.map(([name, lat, lon]) => ({
+                  value: name,
+                  label: name,
+                }))}
+              />
+            </Form.Item>
+            {!isOrigin && cityFieldsKeys.length > 2 && (
+              <div className='remove-icon-wrapper'>
+                <FontAwesomeIcon
+                  onClick={() => handleRemoveCityField(field)}
+                  className='remove-icon'
+                  icon={faCircleXmark}
+                  size='lg'
+                />
+              </div>
+            )}
+          </div>
+        ),
+      };
+    });
+  };
+
+  const cityFields = useMemo(() => createCityFields(), [cityFieldsKeys, searchResults]);
 
   return (
-    <>
-      <Row gutter={[32, 32]}>
-        <Col span={mobileScreen ? 24 : 8}>One of three columns</Col>
-        <Col span={mobileScreen ? 24 : 8}>One of three columns</Col>
-        <Col span={mobileScreen ? 24 : 8}>One of three columns</Col>
+    <Form
+      form={form}
+      layout='vertical'
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete='off'
+      requiredMark={false}
+    >
+      <Row gutter={[64, 16]}>
+        <Col span={mobileMode ? 24 : 16}>
+          <Space size='large' className='timeline-space'>
+            <Timeline items={cityFields} />
+          </Space>
+          <Space size='middle' className='add-destination' onClick={handleAddCityField}>
+            <FontAwesomeIcon icon={faPlusCircle} size='lg' />
+            <div>{t('res_addDestination')}</div>
+          </Space>
+        </Col>
+        <Col span={mobileMode ? 24 : 8}>
+          <Form.Item name='passengers' label={t('res_passengers')} initialValue={passengers}>
+            <NumberInput value={passengers} onChange={setPassengers} />
+          </Form.Item>
+
+          <Form.Item
+            name='date'
+            label={t('res_date')}
+            rules={[{ required: true }, { type: 'date' }]}
+          >
+            <DatePicker size='large' />
+          </Form.Item>
+        </Col>
       </Row>
       <Row>
         <Col
           span={24}
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 32 }}
         >
-          <Button size='large'>{t('res_submit')}</Button>
+          <Button
+            mobile={mobileMode ? mobileMode : undefined}
+            type='primary'
+            size='large'
+            htmlType='submit'
+          >
+            {t('res_submit')}
+          </Button>
         </Col>
       </Row>
-    </>
+    </Form>
   );
 };

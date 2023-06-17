@@ -1,0 +1,44 @@
+@use '../../styles/colors.scss';
+
+.timeline-space {
+  margin-top: 8px;
+  margin-right: 8px;
+  width: 100% !important;
+  .ant-space-item {
+    width: 100% !important;
+  }
+}
+
+.select-with-additional-item {
+  display: flex;
+  width: 100%;
+
+  .ant-form-item {
+    width: 100%;
+  }
+}
+
+.remove-icon-wrapper {
+  margin: auto 12px;
+
+  .remove-icon {
+    cursor: pointer;
+  }
+
+  .remove-icon:hover {
+    color: colors.$purpleDark;
+  }
+}
+
+.add-destination {
+  color: colors.$purpleDark;
+  cursor: pointer;
+}
+
+.add-destination:hover {
+  color: colors.$purpleLight;
+}
+
+.select-component {
+  max-width: 360px;
+}
