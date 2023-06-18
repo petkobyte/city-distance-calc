@@ -3,11 +3,11 @@ import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Grid from 'antd/lib/grid';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button/Button';
 import Space from 'antd/lib/space';
 import Timeline from 'antd/lib/timeline';
-import Select, { SelectProps } from 'antd/lib/select';
+import Select from 'antd/lib/select';
 import Form from 'antd/lib/form';
 import message from 'antd/lib/message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,7 @@ import { NumberInput } from '../../components/number-input';
 import DatePicker from 'antd/lib/date-picker';
 import { CityType } from '../../constants/cityTypes';
 import { City, cities } from '../../constants/cities';
+import Spin from 'antd/lib/spin';
 
 const { useBreakpoint } = Grid;
 
@@ -35,16 +36,15 @@ export const Home = () => {
   const [nextKey, setNextKey] = useState(1);
 
   const [searchResults, setSearchResults] = useState<City[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const mobileMode: boolean = useMemo(() => !!screens.xs, [screens]);
 
-  // const handleSubmit = () => {
-  //   navigate('/result');
-  // };
-
   const onFinish = (values: any) => {
-    message.success('Submit success!');
-    console.log('Success:', values);
+    navigate({
+      pathname: '/result',
+      search: createSearchParams(values).toString(),
+    });
   };
 
   const onFinishFailed = () => {
@@ -76,16 +76,16 @@ export const Home = () => {
   };
 
   const handleSearch = async (keyword: string) => {
-    console.log(keyword);
+    setIsLoading(true);
     try {
       const results = await searchCities(keyword);
       console.log(results);
       setSearchResults(results);
     } catch (error) {
-      console.error('Failed to fetch cities:', error);
+      message.error('Failed to fetch cities');
       setSearchResults([]);
     } finally {
-      console.log('done');
+      setIsLoading(false);
     }
   };
 
@@ -95,10 +95,7 @@ export const Home = () => {
       const isLastItem: boolean = index === cityFieldsKeys.length - 1;
 
       return {
-        dot:
-          index === cityFieldsKeys.length - 1 ? (
-            <FontAwesomeIcon icon={faLocationDot} />
-          ) : undefined,
+        dot: isLastItem ? <FontAwesomeIcon icon={faLocationDot} /> : undefined,
         color: isLastItem ? 'red' : 'black',
         children: (
           <div key={field} className='select-with-additional-item'>
@@ -118,7 +115,8 @@ export const Home = () => {
                 showArrow={false}
                 filterOption={false}
                 onSearch={(e) => handleSearch(e)}
-                notFoundContent={null}
+                onFocus={() => setSearchResults([])}
+                notFoundContent={isLoading ? <Spin size='small' /> : null}
                 options={searchResults.map(([name, lat, lon]) => ({
                   value: name,
                   label: name,
@@ -141,7 +139,7 @@ export const Home = () => {
     });
   };
 
-  const cityFields = useMemo(() => createCityFields(), [cityFieldsKeys, searchResults]);
+  const cityFields = useMemo(() => createCityFields(), [cityFieldsKeys, searchResults, isLoading]);
 
   return (
     <Form

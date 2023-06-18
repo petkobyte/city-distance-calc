@@ -1,8 +1,9 @@
 {
-  "res_submit": "Submit",
-  "res_cityOfOrigin": "City of origin",
+  "res_addDestination": "Add destination",
+  "res_back": "Back",
   "res_cityOfDestination": "City of destination",
-  "res_passengers": "Passengers",
+  "res_cityOfOrigin": "City of origin",
   "res_date": "Date",
-  "res_addDestination": "Add destination"
+  "res_passengers": "Passengers",
+  "res_submit": "Submit"
 }

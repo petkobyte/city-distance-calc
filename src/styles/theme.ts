@@ -1,5 +1,6 @@
 import { ThemeConfig } from 'antd';
 
+// theming example
 export const mainTheme: ThemeConfig = {
   token: {
     colorPrimary: '#7786D2',
