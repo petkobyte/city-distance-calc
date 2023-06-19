@@ -3,7 +3,7 @@ import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Grid from 'antd/lib/grid';
 import { useTranslation } from 'react-i18next';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { URLSearchParamsInit, createSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button/Button';
 import Space from 'antd/lib/space';
 import Select from 'antd/lib/select';
@@ -40,7 +40,7 @@ export const Home = () => {
 
   const mobileMode: boolean = useMemo(() => !!screens.xs, [screens]);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: URLSearchParamsInit) => {
     navigate({
       pathname: '/result',
       search: createSearchParams(values).toString(),
@@ -125,7 +125,7 @@ export const Home = () => {
                 }}
                 onFocus={() => setSearchResults([])}
                 notFoundContent={isLoading ? <Spin size='small'>{t('res_loading')}</Spin> : null}
-                options={searchResults.map(([name, lat, lon]) => ({
+                options={searchResults.map(([name, ,]) => ({
                   value: name,
                   label: name,
                 }))}

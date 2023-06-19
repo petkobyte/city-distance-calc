@@ -15,6 +15,9 @@ export const mainTheme: ThemeConfig = {
     Select: {
       controlItemBgHover: '#C7D1F4',
     },
+    DatePicker: {
+      colorPrimary: '#7786D2',
+    },
   },
 };
 
