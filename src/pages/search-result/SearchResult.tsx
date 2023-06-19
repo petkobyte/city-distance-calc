@@ -11,6 +11,9 @@ import { calculateDistance } from '../../utils/distanceCalculator';
 import Tooltip from 'antd/lib/tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import Space from 'antd/lib/space';
+import './SearchResult.scss';
+import { formatDateString } from '../../utils/dateFormatter';
 
 const { useBreakpoint } = Grid;
 interface SearchParams {
@@ -25,11 +28,15 @@ export const SearchResult = () => {
 
   const [cityDistances, setCityDistances] = useState<(string | number)[]>([]);
   const [distances, setDistances] = useState<number[]>([]);
+  const [passengers, setPassengers] = useState<string>('');
+  const [date, setDate] = useState<string>('');
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);
 
     findCityDistances(extractCityItems(currentParams));
+    setPassengers(currentParams.passengers);
+    setDate(currentParams.date);
   }, [searchParams]);
 
   const mobileMode: boolean = useMemo(() => !!screens.xs, [screens]);
@@ -55,7 +62,7 @@ export const SearchResult = () => {
     }
 
     setCityDistances(cityDistances);
-    console.log(cityDistances);
+    setDistances(distances);
   };
 
   const extractCityItems = (params: SearchParams): string[] => {
@@ -84,11 +91,38 @@ export const SearchResult = () => {
     });
   };
 
+  const distanceSum: number = distances.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
   return (
-    <>
-      <Row gutter={[32, 32]}>
+    <div>
+      <Row>
         <Col span={24}>
           <Timeline mode='alternate' items={renderTimelineItems()} />
+        </Col>
+      </Row>
+
+      <Row className='info-row'>
+        <Col span={24}>
+          <Space>
+            <div className='highlighted-text'>{distanceSum}</div> {t('res_isTotalDistance')}
+          </Space>
+        </Col>
+      </Row>
+
+      <Row className='info-row'>
+        <Col span={24}>
+          <Space>
+            <div className='highlighted-text'>{passengers}</div> {t('res_passengers').toLowerCase()}
+          </Space>
+        </Col>
+      </Row>
+
+      <Row className='info-row'>
+        <Col span={24}>
+          <div className='highlighted-text'>{formatDateString(date)}</div>
         </Col>
       </Row>
       <Row>
@@ -106,6 +140,6 @@ export const SearchResult = () => {
           </Button>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };

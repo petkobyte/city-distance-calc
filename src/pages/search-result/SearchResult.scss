@@ -1,0 +1,10 @@
+@use '../../styles/colors.scss';
+
+.info-row {
+  text-align: center !important;
+}
+
+.highlighted-text {
+  font-weight: 700;
+  color: colors.$purpleDark;
+}

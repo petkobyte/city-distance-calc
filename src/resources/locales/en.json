@@ -5,5 +5,6 @@
   "res_cityOfOrigin": "City of origin",
   "res_date": "Date",
   "res_passengers": "Passengers",
-  "res_submit": "Submit"
+  "res_submit": "Submit",
+  "res_isTotalDistance": "is total distance"
 }

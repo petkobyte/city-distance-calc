@@ -13,6 +13,9 @@ export const mainTheme: ThemeConfig = {
       borderRadiusOuter: 16,
       borderRadius: 16,
     },
+    Tooltip: {
+      colorBgDefault: '#7786D2',
+    },
   },
 };
 
