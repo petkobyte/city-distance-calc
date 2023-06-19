@@ -39,18 +39,24 @@ export const SearchResult = () => {
     const cityDistances: (string | number)[] = [];
     const distances: number[] = [];
 
-    cityList.forEach((city1, i) => {
-      const [name, lat1, lon1] = cities.find(([city]) => city === city1) || [];
-      cityList.slice(i + 1).forEach((city2) => {
-        const [name, lat2, lon2] = cities.find(([city]) => city === city2) || [];
-        const distance = calculateDistance(lat1!, lon1!, lat2!, lon2!);
-        cityDistances.push(city1, distance, city2);
-        distances.push(distance);
-      });
-    });
+    for (let i = 0; i < cityList.length - 1; i++) {
+      const city1 = cityList[i];
+      const [, lat1, lon1] = cities.find(([city]) => city === city1) || [];
+
+      const city2 = cityList[i + 1];
+      const [, lat2, lon2] = cities.find(([city]) => city === city2) || [];
+
+      const distance = calculateDistance(lat1!, lon1!, lat2!, lon2!);
+      if (!cityDistances.includes(city1)) {
+        cityDistances.push(city1);
+      }
+
+      cityDistances.push(distance, city2);
+      distances.push(distance);
+    }
 
     setCityDistances(cityDistances);
-    setDistances(distances);
+    console.log(cityDistances);
   };
 
   const extractCityItems = (params: SearchParams): string[] => {

@@ -179,12 +179,7 @@ export const Home = () => {
           span={24}
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 32 }}
         >
-          <Button
-            mobile={mobileMode ? mobileMode : undefined}
-            type='primary'
-            size='large'
-            htmlType='submit'
-          >
+          <Button mobile={mobileMode} type='primary' size='large' htmlType='submit'>
             {t('res_submit')}
           </Button>
         </Col>
