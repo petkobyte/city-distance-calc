@@ -48,7 +48,7 @@ export const Home = () => {
   };
 
   const onFinishFailed = () => {
-    message.error('Submit failed!');
+    message.error(t('res_submitFailed'));
   };
 
   const handleAddCityField = () => {
@@ -79,7 +79,6 @@ export const Home = () => {
     setIsLoading(true);
     try {
       const results = await searchCities(keyword);
-      console.log(results);
       setSearchResults(results);
     } catch (error) {
       message.error('Failed to fetch cities');
@@ -114,7 +113,11 @@ export const Home = () => {
                 defaultActiveFirstOption={false}
                 showArrow={false}
                 filterOption={false}
-                onSearch={(e) => handleSearch(e)}
+                onSearch={(e) => {
+                  if (e.length > 0) {
+                    handleSearch(e);
+                  }
+                }}
                 onFocus={() => setSearchResults([])}
                 notFoundContent={isLoading ? <Spin size='small'>{t('res_loading')}</Spin> : null}
                 options={searchResults.map(([name, lat, lon]) => ({

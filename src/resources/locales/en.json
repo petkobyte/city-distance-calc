@@ -7,5 +7,6 @@
   "res_passengers": "Passengers",
   "res_submit": "Submit",
   "res_isTotalDistance": "is total distance",
-  "res_loading": "Loading..."
+  "res_loading": "Loading...",
+  "res_submitFailed": "Submit failed"
 }

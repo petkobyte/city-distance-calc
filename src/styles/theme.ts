@@ -7,10 +7,13 @@ export const mainTheme: ThemeConfig = {
   },
   components: {
     Button: {
-      colorPrimary: 'black',
+      colorPrimary: '#374151',
     },
     Tooltip: {
       colorBgDefault: '#7786D2',
+    },
+    Select: {
+      controlItemBgHover: '#C7D1F4',
     },
   },
 };
