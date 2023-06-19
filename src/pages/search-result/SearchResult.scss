@@ -8,3 +8,10 @@
   font-weight: 700;
   color: colors.$purpleDark;
 }
+
+.back-button  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}

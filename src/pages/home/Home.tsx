@@ -65,8 +65,13 @@ export const Home = () => {
 
   const searchCities = (keyword: string): Promise<City[]> => {
     const delay: number = 1000;
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
+        // When a user attempts to find cities using the phrase “fail” (case-insensitive)
+        // the mocked API should fail to return results to demonstrate the error handling abilities of the UI.
+        if (keyword.toLowerCase() === 'fail') {
+          reject(new Error(t('res_failedToFetchCities')));
+        }
         const filteredCities = cities.filter(([name]) =>
           name.toLowerCase().includes(keyword.toLowerCase()),
         );
@@ -184,7 +189,7 @@ export const Home = () => {
         </Col>
       </Row>
       <Row>
-        <Col span={24} className='align-center'>
+        <Col span={24} className='submit-button'>
           <Button mobile={mobileMode} type='primary' size='large' htmlType='submit'>
             {t('res_submit')}
           </Button>

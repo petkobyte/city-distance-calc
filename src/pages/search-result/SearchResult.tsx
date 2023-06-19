@@ -46,6 +46,11 @@ export const SearchResult = () => {
     const cityDistances: (string | number)[] = [];
     const distances: number[] = [];
 
+    // When “Dijon” city is involved the distance calculation should fail to demonstrate the error handling abilities of the UI
+    if (cityList.includes('Dijon')) {
+      throw new Error('Distance calculation failed');
+    }
+
     for (let i = 0; i < cityList.length - 1; i++) {
       const city1 = cityList[i];
       const [, lat1, lon1] = cities.find(([city]) => city === city1) || [];
@@ -135,10 +140,7 @@ export const SearchResult = () => {
         </Col>
       </Row>
       <Row>
-        <Col
-          span={24}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 32 }}
-        >
+        <Col span={24} className='back-button'>
           <Button
             mobile={mobileMode ? mobileMode : undefined}
             type='primary'
