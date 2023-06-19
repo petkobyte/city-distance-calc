@@ -28,7 +28,6 @@ export const SearchResult = () => {
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);
-    console.log(currentParams);
 
     findCityDistances(extractCityItems(currentParams));
   }, [searchParams]);
