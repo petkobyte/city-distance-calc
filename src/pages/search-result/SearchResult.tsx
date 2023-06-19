@@ -14,6 +14,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Space from 'antd/lib/space';
 import './SearchResult.scss';
 import { formatDateString } from '../../utils/dateFormatter';
+import { roundNumber } from '../../utils/roundNumber';
 
 const { useBreakpoint } = Grid;
 interface SearchParams {
@@ -79,7 +80,12 @@ export const SearchResult = () => {
       const isLastItem: boolean = index === cityDistances.length - 1;
 
       return {
-        children: typeof item === 'number' ? <Tooltip placement='left' open title={item} /> : item,
+        children:
+          typeof item === 'number' ? (
+            <Tooltip placement='left' open title={item.toLocaleString()} />
+          ) : (
+            item
+          ),
         color: isLastItem ? 'red' : 'black',
         dot:
           typeof item === 'number' ? (
@@ -96,18 +102,21 @@ export const SearchResult = () => {
     0,
   );
 
+  const timelineItems = useMemo(() => renderTimelineItems(), [cityDistances]);
+
   return (
     <div>
       <Row>
         <Col span={24}>
-          <Timeline mode='alternate' items={renderTimelineItems()} />
+          <Timeline mode='alternate' items={timelineItems} />
         </Col>
       </Row>
 
       <Row className='info-row'>
         <Col span={24}>
           <Space>
-            <div className='highlighted-text'>{distanceSum}</div> {t('res_isTotalDistance')}
+            <div className='highlighted-text'>{roundNumber(distanceSum, 2).toLocaleString()}</div>{' '}
+            {t('res_isTotalDistance')}
           </Space>
         </Col>
       </Row>
