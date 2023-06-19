@@ -40,5 +40,18 @@
 }
 
 .select-component {
-  max-width: 360px;
+  max-width: 340px;
+}
+
+.align-center  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.mobile-passenger-date {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

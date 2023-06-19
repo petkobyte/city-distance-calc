@@ -18,5 +18,10 @@
     max-height: 800px;
     overflow-y: auto;
     overflow-x: hidden;
+    border-radius: 16px;
+
+    .ant-card-body {
+      padding: 48px !important;
+    }
   }
 }

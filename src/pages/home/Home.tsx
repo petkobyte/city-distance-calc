@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button/Button';
 import Space from 'antd/lib/space';
-import Timeline from 'antd/lib/timeline';
 import Select from 'antd/lib/select';
 import Form from 'antd/lib/form';
 import message from 'antd/lib/message';
@@ -18,6 +17,7 @@ import DatePicker from 'antd/lib/date-picker';
 import { CityType } from '../../constants/cityTypes';
 import { City, cities } from '../../constants/cities';
 import Spin from 'antd/lib/spin';
+import { Timeline } from '../../components/timeline';
 
 const { useBreakpoint } = Grid;
 
@@ -116,7 +116,7 @@ export const Home = () => {
                 filterOption={false}
                 onSearch={(e) => handleSearch(e)}
                 onFocus={() => setSearchResults([])}
-                notFoundContent={isLoading ? <Spin size='small' /> : null}
+                notFoundContent={isLoading ? <Spin size='small'>{t('res_loading')}</Spin> : null}
                 options={searchResults.map(([name, lat, lon]) => ({
                   value: name,
                   label: name,
@@ -161,24 +161,27 @@ export const Home = () => {
           </Space>
         </Col>
         <Col span={mobileMode ? 24 : 8}>
-          <Form.Item name='passengers' label={t('res_passengers')} initialValue={passengers}>
-            <NumberInput value={passengers} onChange={setPassengers} />
-          </Form.Item>
-
-          <Form.Item
-            name='date'
-            label={t('res_date')}
-            rules={[{ required: true }, { type: 'date' }]}
+          <Space
+            size='large'
+            direction={mobileMode ? 'horizontal' : 'vertical'}
+            className={mobileMode ? 'mobile-passenger-date' : ''}
           >
-            <DatePicker size='large' />
-          </Form.Item>
+            <Form.Item name='passengers' label={t('res_passengers')} initialValue={passengers}>
+              <NumberInput value={passengers} onChange={setPassengers} />
+            </Form.Item>
+
+            <Form.Item
+              name='date'
+              label={t('res_date')}
+              rules={[{ required: true }, { type: 'date' }]}
+            >
+              <DatePicker size='large' style={{ width: '100%' }} />
+            </Form.Item>
+          </Space>
         </Col>
       </Row>
       <Row>
-        <Col
-          span={24}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 32 }}
-        >
+        <Col span={24} className='align-center'>
           <Button mobile={mobileMode} type='primary' size='large' htmlType='submit'>
             {t('res_submit')}
           </Button>

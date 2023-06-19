@@ -9,10 +9,6 @@ export const mainTheme: ThemeConfig = {
     Button: {
       colorPrimary: 'black',
     },
-    Card: {
-      borderRadiusOuter: 16,
-      borderRadius: 16,
-    },
     Tooltip: {
       colorBgDefault: '#7786D2',
     },

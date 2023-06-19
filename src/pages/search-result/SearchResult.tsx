@@ -5,8 +5,7 @@ import Grid from 'antd/lib/grid';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../../components/button/Button';
-import Timeline from 'antd/lib/timeline';
-import { City, cities } from '../../constants/cities';
+import { cities } from '../../constants/cities';
 import { calculateDistance } from '../../utils/distanceCalculator';
 import Tooltip from 'antd/lib/tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +14,7 @@ import Space from 'antd/lib/space';
 import './SearchResult.scss';
 import { formatDateString } from '../../utils/dateFormatter';
 import { roundNumber } from '../../utils/roundNumber';
+import { Timeline } from '../../components/timeline';
 
 const { useBreakpoint } = Grid;
 interface SearchParams {
