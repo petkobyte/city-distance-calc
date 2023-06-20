@@ -11,7 +11,7 @@ import Tooltip from 'antd/lib/tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Space from 'antd/lib/space';
-import './SearchResult.scss';
+import './searchResult.scss';
 import { formatDateString } from '../../utils/dateFormatter';
 import { roundNumber } from '../../utils/roundNumber';
 import { Timeline } from '../../components/timeline';

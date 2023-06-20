@@ -11,7 +11,7 @@ import Form from 'antd/lib/form';
 import message from 'antd/lib/message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faLocationDot, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import './Home.scss';
+import './home.scss';
 import { NumberInput } from '../../components/number-input';
 import DatePicker from 'antd/lib/date-picker';
 import { CityType } from '../../constants/cityTypes';

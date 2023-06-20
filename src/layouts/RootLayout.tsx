@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import './RootLayout.scss';
+import './rootLayout.scss';
 import Card from 'antd/lib/card';
 
 export const RootLayout = () => {
